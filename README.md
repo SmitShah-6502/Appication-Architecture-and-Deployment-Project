@@ -13,87 +13,68 @@ The dataset used for this project is an open-source healthcare dataset or a synt
 - **Hospitalization details** (e.g., length of stay, number of procedures, medications prescribed)
 - **Previous readmission records**
 
-##Data Description
-1. time_in_hospital (Integer)
-Represents the number of days the patient stayed in the hospital.
-Higher values may indicate more severe conditions or complications.
-2. n_lab_procedures (Integer)
-Total number of lab tests conducted during the patient's hospital stay.
-More tests might indicate a thorough examination or complex health conditions.
-3. n_procedures (Integer)
-Total number of medical procedures performed on the patient.
-Higher values may suggest a more severe illness or multiple interventions.
-4. n_medications (Integer)
-Number of different medications prescribed to the patient.
-Can indicate the complexity of treatment or multiple health conditions.
-5. n_outpatient (Integer)
-Number of outpatient visits before hospitalization.
-Frequent visits may suggest ongoing medical conditions or preventive care.
-6. n_inpatient (Integer)
-Number of previous inpatient admissions.
-Higher numbers may indicate chronic conditions or recurring health issues.
-7. n_emergency (Integer)
-Number of emergency visits before hospitalization.
-Frequent ER visits could suggest poor health management or critical conditions.
-8. medical_specialty (Hashed Integer)
-Encodes the specialty of the doctor or department handling the patient (e.g., cardiology, endocrinology).
-Since it's a categorical variable, it's converted using a hash function (hash(data["medical_specialty"]) % 1000).
-9. diag_1 (Hashed Integer)
-Represents the primary diagnosis code assigned to the patient.
-Encoded using a hash function (hash(data["diag_1"]) % 1000) to ensure consistent numerical representation.
-10. diag_2 (Hashed Integer)
-Represents the secondary diagnosis code (if applicable).
-Also hashed similarly to diag_1.
-11. diag_3 (Hashed Integer)
-Represents the tertiary (third) diagnosis code.
-Encoded using hashing like diag_1 and diag_2.
-12. glucose_test (Binary: 0 or 1)
-Indicates whether a glucose test was performed.
-1 = Test performed, 0 = No test.
-13. A1Ctest (Binary: 0 or 1)
-Indicates whether an A1C test (used to check diabetes control) was performed.
-1 = Test performed, 0 = No test.
-14. change (Binary: 0 or 1)
-Indicates whether medication was changed during the hospital stay.
-1 = Yes, 0 = No.
-15. diabetes_med (Binary: 0 or 1)
-Indicates whether the patient was prescribed diabetes medication.
-1 = Yes, 0 = No.
+## Data Description
+1. **time_in_hospital (Integer)** - Number of days the patient stayed in the hospital.
+2. **n_lab_procedures (Integer)** - Total number of lab tests conducted during the hospital stay.
+3. **n_procedures (Integer)** - Total number of medical procedures performed on the patient.
+4. **n_medications (Integer)** - Number of different medications prescribed.
+5. **n_outpatient (Integer)** - Number of outpatient visits before hospitalization.
+6. **n_inpatient (Integer)** - Number of previous inpatient admissions.
+7. **n_emergency (Integer)** - Number of emergency visits before hospitalization.
+8. **medical_specialty (Hashed Integer)** - Encodes the specialty of the doctor/department.
+9. **diag_1 (Hashed Integer)** - Primary diagnosis code, encoded using hashing.
+10. **diag_2 (Hashed Integer)** - Secondary diagnosis code, hashed.
+11. **diag_3 (Hashed Integer)** - Tertiary diagnosis code, hashed.
+12. **glucose_test (Binary: 0 or 1)** - Indicates whether a glucose test was performed.
+13. **A1Ctest (Binary: 0 or 1)** - Indicates whether an A1C test was performed.
+14. **change (Binary: 0 or 1)** - Indicates whether medication was changed.
+15. **diabetes_med (Binary: 0 or 1)** - Indicates whether diabetes medication was prescribed.
+
+## Model and Explanation
+For predicting patient readmission, we use the **Random Forest Classifier**.
+
+### Why Random Forest?
+Random Forest is an ensemble learning technique that combines multiple decision trees to improve accuracy and robustness. Here’s why we chose it:
+
+- **Handles Non-Linearity:** Unlike logistic regression, Random Forest can capture complex patterns in the data.
+- **Feature Importance:** It provides insights into which factors influence readmission most.
+- **Handles Missing Data:** Unlike decision trees, it is less prone to overfitting and performs well with missing values.
+- **Scalability:** Works efficiently with large datasets.
+
+### Comparison with Logistic Regression
+| Feature               | Random Forest                     | Logistic Regression             |
+|----------------------|--------------------------------|--------------------------------|
+| **Non-Linearity**   | Can capture complex relationships | Assumes a linear relationship  |
+| **Overfitting**     | Less prone due to multiple trees  | More prone to overfitting      |
+| **Feature Selection** | Provides feature importance ranking | Needs manual feature selection |
+| **Handling Missing Data** | Handles missing values well | Requires imputation            |
+| **Interpretability** | Less interpretable, but powerful | More interpretable, but limited |
+
+Since patient readmission is influenced by multiple non-linear factors, **Random Forest** is preferred over **Logistic Regression** for better accuracy and robustness.
 
 ## Project Workflow
 This project follows a structured pipeline for development and deployment:
 
-1️⃣ **Develop the Flask API (`app.py`)**: 
-   - The API accepts patient details (e.g., age, diagnosis, hospital stay duration, and test results).
-   - It processes the input and returns a prediction on whether the patient is likely to be readmitted within 30 days.
-   
-2️⃣ **Dockerize the Application**:
-   - Containerize the Flask API using Docker.
-   - Test the container locally to ensure smooth execution.
-   
-3️⃣ **Deploy the API using Docker Hub**:
-   - Push the Docker image to Docker Hub.
-   - Pull and run the container from Docker Hub on a new machine.
-   
-4️⃣ **Deploy the API on AWS EC2**:
-   - Configure an AWS EC2 instance.
-   - Pull the Docker image and run the API, making it accessible via the cloud.
+1️⃣ **Develop the Flask API (`app.py`)**
+2️⃣ **Dockerize the Application**
+3️⃣ **Deploy the API using Docker Hub**
+4️⃣ **Deploy the API on AWS EC2**
 
 ## Features
 ✅ Accepts patient data via a JSON request.
-✅ Preprocesses input features (e.g., encoding categorical values, scaling numerical data).
-✅ Predicts hospital readmission using a trained machine learning model.
-✅ Returns both the prediction outcome and probability score (if available).
-✅ Deployed as a **REST API** for seamless integration.
+✅ Preprocesses input features.
+✅ Predicts hospital readmission using a trained ML model.
+✅ Returns both the prediction outcome and probability score.
+✅ Deployed as a **REST API**.
 
 ## Project Structure
 ```
 /your_project_directory
 │── app.py                      # Flask application
-│── Application_Architecture_Project.ipynb  # Jupyter Notebook for model training & exploration
+│── Application_Architecture_Project.ipynb  # Jupyter Notebook for model training
 │── Dockerfile                   # Docker configuration
 │── hospital_readmissions.csv     # Dataset for model training
-│── project-key.pem               # Security key (for AWS deployment)
+│── project-key.pem               # Security key for AWS
 │── readmission_model.pkl         # Trained ML model
 │── requirements.txt              # Dependencies
 │── train_test_data.pkl           # Preprocessed train-test split data
@@ -104,18 +85,16 @@ This project follows a structured pipeline for development and deployment:
 Ensure you have **Python 3** installed on your system.
 
 ### Install Dependencies
-Run the following command to install the required packages:
 ```bash
 pip install -r requirements.txt
 ```
 
 ## Usage
 ### Running the API Locally
-To start the Flask API locally, run:
 ```bash
 python app.py
 ```
-The API will be available at `http://127.0.0.1:5000/`.
+API will be available at `http://127.0.0.1:5000/`.
 
 ### API Endpoints
 #### 1️⃣ Home Page
@@ -157,50 +136,30 @@ The API will be available at `http://127.0.0.1:5000/`.
 
 ## Docker Setup
 To containerize and run the API using Docker:
-1. **Build the Docker image**:
-   ```bash
-   docker build -t readmission-api .
-   ```
-2. **Run the container locally**:
-   ```bash
-   docker run -p 5000:5000 readmission-api
-   ```
+```bash
+docker build -t readmission-api .
+docker run -p 5000:5000 readmission-api
+```
 
 ## Deployment
 ### Deploying to Docker Hub
-1. **Tag the Docker image**:
-   ```bash
-   docker tag readmission-api <your-dockerhub-username>/readmission-api
-   ```
-2. **Push the image to Docker Hub**:
-   ```bash
-   docker push <your-dockerhub-username>/readmission-api
-   ```
+```bash
+docker tag readmission-api <your-dockerhub-username>/readmission-api
+docker push <your-dockerhub-username>/readmission-api
+```
 
 ### Deploying on AWS EC2
-1. **SSH into your EC2 instance**:
-   ```bash
-   ssh -i project-key.pem ec2-user@<EC2-Public-IP>
-   ```
-2. **Pull the Docker image from Docker Hub**:
-   ```bash
-   docker pull <your-dockerhub-username>/readmission-api
-   ```
-3. **Run the container on EC2**:
-   ```bash
-   docker run -p 5000:5000 <your-dockerhub-username>/readmission-api
-   ```
+```bash
+ssh -i project-key.pem ec2-user@<EC2-Public-IP>
+docker pull <your-dockerhub-username>/readmission-api
+docker run -p 5000:5000 <your-dockerhub-username>/readmission-api
+```
 
 ## Technologies Used
-🚀 **Flask**: Web framework for building the API.
-📊 **NumPy & Pandas**: Data handling and preprocessing.
-🧠 **Scikit-learn**: Machine learning model training and inference.
-🐳 **Docker**: Containerization for scalable deployment.
-☁️ **AWS EC2**: Cloud hosting for making the API accessible globally.
+🚀 **Flask**  📊 **NumPy & Pandas**  🧠 **Scikit-learn**  🐳 **Docker**  ☁️ **AWS EC2**
 
 ## Contributors
-👨‍💻 **Smit Shah , Ajwad Ansari , Bhavyam Ramani , Swarangi**
+👨‍💻 **Smit Shah, Ajwad Ansari, Bhavyam Ramani, Swarangi**
 
 ## License
 This project is licensed under the MIT License.
-
