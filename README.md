@@ -156,7 +156,7 @@ docker run -p 5000:5000 <your-dockerhub-username>/readmission-api
 ```
 
 ## Technologies Used
-🚀 **Flask**  📊 **NumPy & Pandas**  🧠 **Scikit-learn**  🐳 **Docker**  ☁️ **AWS EC2**
+🚀 **Flask**  📊 **NumPy**  🧠 **Scikit-learn**  🐳 **Docker**  ☁️ **AWS EC2**
 
 ## Contributors
 👨‍💻 **Smit Shah, Ajwad Ansari, Bhavyam Ramani, Swarangi**
