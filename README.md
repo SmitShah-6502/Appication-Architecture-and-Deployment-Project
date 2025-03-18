@@ -13,6 +13,53 @@ The dataset used for this project is an open-source healthcare dataset or a synt
 - **Hospitalization details** (e.g., length of stay, number of procedures, medications prescribed)
 - **Previous readmission records**
 
+##Data Description
+1. time_in_hospital (Integer)
+Represents the number of days the patient stayed in the hospital.
+Higher values may indicate more severe conditions or complications.
+2. n_lab_procedures (Integer)
+Total number of lab tests conducted during the patient's hospital stay.
+More tests might indicate a thorough examination or complex health conditions.
+3. n_procedures (Integer)
+Total number of medical procedures performed on the patient.
+Higher values may suggest a more severe illness or multiple interventions.
+4. n_medications (Integer)
+Number of different medications prescribed to the patient.
+Can indicate the complexity of treatment or multiple health conditions.
+5. n_outpatient (Integer)
+Number of outpatient visits before hospitalization.
+Frequent visits may suggest ongoing medical conditions or preventive care.
+6. n_inpatient (Integer)
+Number of previous inpatient admissions.
+Higher numbers may indicate chronic conditions or recurring health issues.
+7. n_emergency (Integer)
+Number of emergency visits before hospitalization.
+Frequent ER visits could suggest poor health management or critical conditions.
+8. medical_specialty (Hashed Integer)
+Encodes the specialty of the doctor or department handling the patient (e.g., cardiology, endocrinology).
+Since it's a categorical variable, it's converted using a hash function (hash(data["medical_specialty"]) % 1000).
+9. diag_1 (Hashed Integer)
+Represents the primary diagnosis code assigned to the patient.
+Encoded using a hash function (hash(data["diag_1"]) % 1000) to ensure consistent numerical representation.
+10. diag_2 (Hashed Integer)
+Represents the secondary diagnosis code (if applicable).
+Also hashed similarly to diag_1.
+11. diag_3 (Hashed Integer)
+Represents the tertiary (third) diagnosis code.
+Encoded using hashing like diag_1 and diag_2.
+12. glucose_test (Binary: 0 or 1)
+Indicates whether a glucose test was performed.
+1 = Test performed, 0 = No test.
+13. A1Ctest (Binary: 0 or 1)
+Indicates whether an A1C test (used to check diabetes control) was performed.
+1 = Test performed, 0 = No test.
+14. change (Binary: 0 or 1)
+Indicates whether medication was changed during the hospital stay.
+1 = Yes, 0 = No.
+15. diabetes_med (Binary: 0 or 1)
+Indicates whether the patient was prescribed diabetes medication.
+1 = Yes, 0 = No.
+
 ## Project Workflow
 This project follows a structured pipeline for development and deployment:
 
