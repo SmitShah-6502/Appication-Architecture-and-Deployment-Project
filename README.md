@@ -1,4 +1,4 @@
-# Appication-Architecture-and-Deployment-Project
+# Application-Architecture-and-Deployment-Project
 # Patient Readmission Prediction API
 
 ## Problem Statement
